@@ -1,0 +1,26 @@
+
+version: 1
+
+models:
+  - name: world_bank_gdp
+    description: "dbt model for world bank gdp task"
+    columns:
+      - name: Country
+        type: varchar 
+      - name: Year
+        type: integer
+      - name: Gdp
+        type: numeric
+      - name: gdp_growth
+        type: numeric
+      - name: min_gdp_growth_since_2000
+        type: numeric
+      - name: max_gdp_growth_since_2000
+        type: numeric
+
+
+
+
+
+          
+
