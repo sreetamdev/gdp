@@ -38,7 +38,7 @@ The calculation is:*/
 			
 )
 
-/*This CTE calculates the minimum and maximum GDP growth for each country since the year 2000. 
+/*This CTE calculates the minimum and maximum GDP growth for each country since the year 2000 to the current year the row represents (not to the latest year). 
 It uses window functions again:
 
 min function finds the minimum gdp_growth between the current row and all preceding rows within the same 

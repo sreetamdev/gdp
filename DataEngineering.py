@@ -40,32 +40,6 @@ volumes = {"/var/lib/postgresql/data": {"bind": "/var/lib/postgresql/data", "mod
 
 """4. Logic execution to check for exisitng Docker container or creating a new one if doesn't exist"""
 
-#client = DockerClient()
-
-"""
-# try block client.containers.get(client.containers.get(container_name)
-# is chekcing if an existing container with specified name already exist
-# if no existing container is found then except block handles this with client.containers.run()
-
-try:
-    client.containers.get(container_name)
-    print(f"Container {container_name} already exists.")
-
-except docker.errors.NotFound:
-    print(f"initiating PostgreSQL: {container_name}")
-    client.containers.run(
-    image = image,
-    name = container_name,
-    environment = environment,
-    detach = detach,
-    ports = ports,
-    volumes = volumes
-
-    )
-
-
-"""
-#######################
 def create_or_run_container(client, container_name, image, environment, detach, ports, volumes):
     """
     Checks if a container with the given name exists.
@@ -106,28 +80,6 @@ def create_or_run_container(client, container_name, image, environment, detach, 
         )
     return container
 
-# Example usage
-#client = DockerClient()
-#container = create_or_run_container(client, container_name, image, environment, detach, ports, volumes)
-
-
-#########################
-
-# Add a delay of 10 secs before attempting to connect to postgresql db
-#time.sleep(10)
-
-""". connecting to postgresql database using psycopg2
-conn = psycopg2.connect(                                #creating a connection object and cursor object to interact with databse
-                        host = host,
-                        port = port,
-                        user = user,
-                        database = database,
-                        password = password)
-                
-cursor = conn.cursor()"""          
-
-"""5. Attempting to fetch Gross Domestic Product (GDP) from World Bank API and store in 
-PostgresSQL database"""
 
 
 # url for world bank api endpoint to access gdp data
@@ -277,10 +229,11 @@ def main(worldbank_api_url):
 
     """This is the main function where the program execution starts.
         1.Calls get_data to retrieve data from the World Bank API using the provided URL.
-        2.Establishes a connection to the PostgreSQL database using postgresqldb_connection.
-        3.Calls create_table to create the world_bank table (if it doesn't exist already).
-        4.Accesses the first item in the retrieved data (worldbank_api_list) to get the current page number (page) and total number of pages (pages).
-        5.Loops through all pages of data (from page to pages + 1).
+        2.Inititaes Docker client connection to engage with Docker and create container
+        3.Establishes a connection to the PostgreSQL database using postgresqldb_connection.
+        4.Calls create_table to create the world_bank table (if it doesn't exist already).
+        5.Accesses the first item in the retrieved data (worldbank_api_list) to get the current page number (page) and total number of pages (pages).
+        6.Loops through all pages of data (from page to pages + 1).
 
         Inside the forloop:
         1.Establishes a new connection for each page to avoid potential connection issues.
@@ -293,7 +246,7 @@ def main(worldbank_api_url):
     container = create_or_run_container(client, container_name, image, environment, detach, ports, volumes)
     time.sleep(10) # Add a delay of 10 secs before attempting to connect to postgresql db
     conn, cursor = postgresqldb_connection(host,port,user,database,password)
-    #time.sleep(10) # Add a delay of 10 secs before attempting to connect to postgresql db
+    
     create_table(conn,cursor)
     
     i = worldbank_api_list[0]['page']
@@ -309,10 +262,5 @@ def main(worldbank_api_url):
 main(worldbank_api_url) # calling the main fucntion
 
 
-#error conneting to database: duplicate key value violates unique constraint "world_bank_pkey"
-#DETAIL:  Key (indicator_id)=(NY.GDP.MKTP.CD) already exists.
-
-#error conneting to database: null value in column "value" of relation "world_bank" violates not-null constraint
-#DETAIL:  Failing row contains (NY.GDP.MKTP.CD, GDP (current US$), ZH, Africa Eastern and Southern, AFE, 2023, null, , , 0).
 
 
