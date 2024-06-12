@@ -27,6 +27,7 @@ Here's the modified syntax for your GitHub README:
 4. `docker exec -it postgres-docker  bash` to engage with postgressql
 5. Once psql initiates `psql -h localhost -p 5435  -U postgres -W` or `psql -U postgres` or `psql -h localhost -p 5435  -U postgres -W`
 8. After this instance one can execute sql commands for e.g. "CREATE DATABASE mytestdb;" to execute interaction with database.
+9. Refer the URL below for img:
 <img width="976" alt="Screenshot 2024-06-12 at 11 27 12 AM" src="https://github.com/sreetamdev/world_bank_gdp/assets/48480391/401c5a57-3c1c-4962-8781-c53a8ebdc2f1">
 
 ### dbt 
@@ -48,12 +49,14 @@ Here's the modified syntax for your GitHub README:
 9. Once your connection have passed you can run `dbt run --select my_first_dbt_model` where `my_first_dbt_model.sql` is a sample sql script that dbt will have within its model directory. And create own custom scripts as per our need under model &     
    test 
 10. `dbt test` can be used to test out any case while executing the file
+11. Refer the URL below for img:
 <img width="1276" alt="Screenshot 2024-06-12 at 11 28 54 AM" src="https://github.com/sreetamdev/world_bank_gdp/assets/48480391/fc7b9367-93aa-4b12-bb10-3f71f383e1d0">
 
 ### PostgreSQL
 1. Inititiated postgres installation by following EDB installer
 2. Set the password, port during the installation for PostgresSQL
 3. Set the correct connection setting for host, port, username and password to connect to the server from initiated on the Docker instance.
+4. Refer the URL below for img:
 ![Screenshot 2024-06-12 at 11 30 25 AM](https://github.com/sreetamdev/world_bank_gdp/assets/48480391/81b37c61-e42d-49a0-b2cc-f0f43596d6e7)
 
 ### Approach to complete Task 1 and Task 2
