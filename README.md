@@ -61,38 +61,38 @@ Here's the modified syntax for your GitHub README:
 1. Prior to performing task made sure all my tools such as VS studio, Docker, pgAdmin4, dbt and Github were connected with my user settings and accessible to perform the task
 2. Firstly, for task 1 I tried to establish a working connection bewtween my python script fetching information from API, creating a table inside the PostgreSQL application and ingesting into the table undergoing a loop based on api pages as identified from the api's JSON data structure. The database server from my local machine was connected with Docker container containing image of PostgreSQL. I used a python script to handle "DataEngineering.py" to define Docker setting's and initiate Docker engine for building container with postgres image. Following on this the databse connection details have been specified within the script.
 3. Upon executing the DataEngineering.py script the following occurs:
-        1.get_data function to retrieve data from the World Bank API using the provided URL.
-        2.Inititaes Docker client connection to engage with Docker and create container using postgres image.
-        3.Establishes a connection to the PostgreSQL database using postgresqldb_connection.
-        4.Calls create_table function conatining SQL query to create the world_bank table. The table schema was defined in this section
-        5.Accesses the first item in the retrieved data (worldbank api) to get the current page number (page) and total number of pages (pages).
-        6.Loops through all pages of data.
+     1.get_data function to retrieve data from the World Bank API using the provided URL.
+     2.Inititaes Docker client connection to engage with Docker and create container using postgres image.
+     3.Establishes a connection to the PostgreSQL database using postgresqldb_connection.
+     4.Calls create_table function conatining SQL query to create the world_bank table. The table schema was defined in this section
+     5.Accesses the first item in the retrieved data (worldbank api) to get the current page number (page) and total number of pages (pages).
+     6.Loops through all pages of data.
 
-        Inside the loop:
-        1.Establishes a new database connection for each page to avoid potential connection issues.
-        2.Constructed a new URL with the page number appended for pagination using urljoin.
-        3.Function get_data again was used to download data for the specific page.
-        4.Function insert_table was used to insert the data from that page into the database table.
+     Inside the loop:
+     1.Establishes a new database connection for each page to avoid potential connection issues.
+     2.Constructed a new URL with the page number appended for pagination using urljoin.
+     3.Function get_data again was used to download data for the specific page.
+     4.Function insert_table was used to insert the data from that page into the database table.
 
-        Errors handled during execution:
-        1. While insatlling libraries to perform task module installation errors were handled 
-        2. Incorrect server setting being mapped for local Postgres server to Docker's Postgres instance. To handle this after initialising Docker container time delay was added to script before attempting to connect to PostgreSQL server.
-        3. While using PostgresSQL connection the connection timeout using create table statements posed a problem to not execute insert values into tables SQL quiery. I handlded this of the query by re initiating the connection before ingestion into
-           respective database table occurs.
-        4. During table creation the schema of data posed a problem for values that were being ingested. For e.g. date field contained year but upon defining it as date in schema posed an ingestion problem. To handle this case i defined the schema as             varchar for date so that ingestion occurs and later using dbt I can control the data type of the columns
-        5. While converting the entire script into resuable code my making functions and using inheritance the sequential execution of task posed a problem. Hence, I arranged the steps sequentially such as : 1.api call function, 2. Docker client,   
-           function, 3. Docker container creation fucntion, 4.time delay before initiating database connection, 5.PostgreSQL connection function, 6.Creating the database table fucntion, 7.Performing the loop exectuion taking care of pagination for                fetching data from api and 8. calling the main function to execute all of the above.
-        6.While defining unique within table schema for coulms faced the following errors during ingestion:
-          #error conneting to database: duplicate key value violates unique constraint "world_bank_pkey"
-          #DETAIL:  Key (indicator_id)=(NY.GDP.MKTP.CD) already exists.
-          #error conneting to database: null value in column "value" of relation "world_bank" violates not-null constraint
-          #DETAIL:  Failing row contains (NY.GDP.MKTP.CD, GDP (current US$), ZH, Africa Eastern and Southern, AFE, 2023, null, , , 0).
-          I handled them by removing such constraints in the schema as I can later control these situations while defining in dbt.
+     Errors handled during execution:
+     1. While insatlling libraries to perform task module installation errors were handled 
+     2. Incorrect server setting being mapped for local Postgres server to Docker's Postgres instance. To handle this after initialising Docker container time delay was added to script before attempting to connect to PostgreSQL server.
+     3. While using PostgresSQL connection the connection timeout using create table statements posed a problem to not execute insert values into tables SQL quiery. I handlded this of the query by re initiating the connection before ingestion into
+        respective database table occurs.
+     4. During table creation the schema of data posed a problem for values that were being ingested. For e.g. date field contained year but upon defining it as date in schema posed an ingestion problem. To handle this case i defined the schema as             varchar for date so that ingestion occurs and later using dbt I can control the data type of the columns
+     5. While converting the entire script into resuable code my making functions and using inheritance the sequential execution of task posed a problem. Hence, I arranged the steps sequentially such as : 1.api call function, 2. Docker client,   
+        function, 3. Docker container creation fucntion, 4.time delay before initiating database connection, 5.PostgreSQL connection function, 6.Creating the database table fucntion, 7.Performing the loop exectuion taking care of pagination for                fetching data from api and 8. calling the main function to execute all of the above.
+     6.While defining unique within table schema for coulms faced the following errors during ingestion:
+       #error conneting to database: duplicate key value violates unique constraint "world_bank_pkey"
+       #DETAIL:  Key (indicator_id)=(NY.GDP.MKTP.CD) already exists.
+       #error conneting to database: null value in column "value" of relation "world_bank" violates not-null constraint
+       #DETAIL:  Failing row contains (NY.GDP.MKTP.CD, GDP (current US$), ZH, Africa Eastern and Southern, AFE, 2023, null, , , 0).
+       I handled them by removing such constraints in the schema as I can later control these situations while defining in dbt.
 
 
-        Output:
-        1. Ingested all historic GDP (in US$) data for all countries using the World Bank API and imported the data into a PostgreSQL database. Handled the API is pagination
-        2. Before loading the raw data into a local PostgreSQL database, hosted postgres on Docker and mapped server connection. Defined a table schema in python script create table, and imported the data from the API into the database using insert               statement.
+     Output:
+     1. Ingested all historic GDP (in US$) data for all countries using the World Bank API and imported the data into a PostgreSQL database. Handled the API is pagination
+     2. Before loading the raw data into a local PostgreSQL database, hosted postgres on Docker and mapped server connection. Defined a table schema in python script create table, and imported the data from the API into the database using insert               statement.
 
   
 #### Task2 Data transformation
