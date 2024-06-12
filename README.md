@@ -11,8 +11,7 @@ Here's the modified syntax for your GitHub README:
 1. Python version python 3.11.2 in Visual Studio Code
 2. PostgreSQL hosted on Docker acting as database for our operation. pgAdmin4 application is used to connect Postgres (postgresql 16.3) on my local system to server of Docker container containing Postgres.
 3. dbt to build models and test cases
-4. Github for version control
-5. Tableau Public for visualisation  
+4. Github for version control 
 
 ### Scripts 
 1. `DataEngineering.py` script has been used to fetch data from API, build Docker container, access PostgreSQL in Docker to ingest data into database
@@ -28,6 +27,7 @@ Here's the modified syntax for your GitHub README:
 4. `docker exec -it postgres-docker  bash` to engage with postgressql
 5. Once psql initiates `psql -h localhost -p 5435  -U postgres -W` or `psql -U postgres` or `psql -h localhost -p 5435  -U postgres -W`
 8. After this instance one can execute sql commands for e.g. "CREATE DATABASE mytestdb;" to execute interaction with database.
+<img width="976" alt="Screenshot 2024-06-12 at 11 27 12 AM" src="https://github.com/sreetamdev/world_bank_gdp/assets/48480391/401c5a57-3c1c-4962-8781-c53a8ebdc2f1">
 
 ### dbt 
 1. Initialise the virtual environment after installing dbt in VS code. For e.g. `python3 -m venv dbt-env`
@@ -48,11 +48,13 @@ Here's the modified syntax for your GitHub README:
 9. Once your connection have passed you can run `dbt run --select my_first_dbt_model` where `my_first_dbt_model.sql` is a sample sql script that dbt will have within its model directory. And create own custom scripts as per our need under model &     
    test 
 10. `dbt test` can be used to test out any case while executing the file
+<img width="1276" alt="Screenshot 2024-06-12 at 11 28 54 AM" src="https://github.com/sreetamdev/world_bank_gdp/assets/48480391/fc7b9367-93aa-4b12-bb10-3f71f383e1d0">
 
 ### PostgreSQL
 1. Inititiated postgres installation by following EDB installer
 2. Set the password, port during the installation for PostgresSQL
 3. Set the correct connection setting for host, port, username and password to connect to the server from initiated on the Docker instance.
+![Screenshot 2024-06-12 at 11 30 25 AM](https://github.com/sreetamdev/world_bank_gdp/assets/48480391/81b37c61-e42d-49a0-b2cc-f0f43596d6e7)
 
 ### Approach to complete Task 1 and Task 2
 
@@ -60,7 +62,7 @@ Here's the modified syntax for your GitHub README:
 
 1. Prior to performing task made sure all my tools such as VS studio, Docker, pgAdmin4, dbt and Github were connected with my user settings and accessible to perform the task
 2. Firstly, for task 1 I tried to establish a working connection bewtween my python script fetching information from API, creating a table inside the PostgreSQL application and ingesting into the table undergoing a loop based on api pages as identified from the api's JSON data structure. The database server from my local machine was connected with Docker container containing image of PostgreSQL. I used a python script to handle "DataEngineering.py" to define Docker setting's and initiate Docker engine for building container with postgres image. Following on this the databse connection details have been specified within the script.
-3. Upon executing the DataEngineering.py script the following occurs:
+3. Upon executing the "DataEngineering.py" script the following occurs:
      1.get_data function to retrieve data from the World Bank API using the provided URL.
      2.Inititaes Docker client connection to engage with Docker and create container using postgres image.
      3.Establishes a connection to the PostgreSQL database using postgresqldb_connection.
@@ -73,6 +75,8 @@ Here's the modified syntax for your GitHub README:
      2.Constructed a new URL with the page number appended for pagination using urljoin.
      3.Function get_data again was used to download data for the specific page.
      4.Function insert_table was used to insert the data from that page into the database table.
+     <img width="971" alt="Screenshot 2024-06-12 at 11 26 03 AM" src="https://github.com/sreetamdev/world_bank_gdp/assets/48480391/ee598d0e-aad5-41db-8e09-79cb1c1ddbbb">
+
 
      Errors handled during execution:
      1. While insatlling libraries to perform task module installation errors were handled 
@@ -88,7 +92,7 @@ Here's the modified syntax for your GitHub README:
        #error conneting to database: null value in column "value" of relation "world_bank" violates not-null constraint
        #DETAIL:  Failing row contains (NY.GDP.MKTP.CD, GDP (current US$), ZH, Africa Eastern and Southern, AFE, 2023, null, , , 0).
        I handled them by removing such constraints in the schema as I can later control these situations while defining in dbt.
-
+      
 
      Output:
      1. Ingested all historic GDP (in US$) data for all countries using the World Bank API and imported the data into a PostgreSQL database. Handled the API is pagination
@@ -119,14 +123,14 @@ Here's the modified syntax for your GitHub README:
 5. Output:
     1.Performed an ELT (Extract, Load, Transform) process on the ingested data in Postgres databse table to create a table that aligns with the provided format. The table contains information about countries' GDPs recorded every year since 2000. 
     2. Wrote 1 test case in dbt.
-    3. Implemented CI/CD using GitHub. Performed one Pull Request (PR) to demonstrate your integration of CI/CD principles in my workflow. 
+    3. Implemented CI/CD using GitHub after connecting with remote repo using Github personal tokens during authentication. Performed one Pull Request (PR) to demonstrate your integration of CI/CD principles in my workflow. 
     4. The table columns were aligned as per below 
       a. Country 
       b. Year 
       c. Gdp 
       d. gdp_growth = calculated as ( gdp - previous year gdp ) / previous year gdp 
       e. min_gdp_growth_since_2000: (minimum GDP growth from year 2000 to the current year the row represents (not to the latest year) 
-      f. max_gdp_growth_since_2000: (maximum GDP growth from year 2000 to the current year the row represents (not to the latest year). 
+      f. max_gdp_growth_since_2000: (maximum GDP growth from year 2000 to the current year the row represents (not to the latest year).
        
 
    
